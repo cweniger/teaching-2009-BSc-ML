@@ -2388,20 +2388,25 @@ class: center, middle, black-slide
 
 ---
 
-class: middle
+# The likelihood-to-evidence ratio
 
-## The likelihood-to-evidence ratio
-
-- In order to evaluate the probability of any outcome, we have to sum or integrate over all possible paths that could have led to this outcome
+In order to evaluate the probability of any outcome, we have to sum or integrate over all possible paths that could have led to this outcome
 $$
 P(x|\theta) = \underbrace{\int dz}_\text{\color{red} intractable}  \delta(x - z(t)) P(z|\theta)
 $$
 
-- Even if we could estimate the shape of $P(x|\theta)$ for paths that lead to
+--
+
+count: false
+
+Even if we could estimate the shape of $P(x|\theta)$ for paths that lead to
 some actually observed values of $x$, in order to get the normalization of $P(x)$ we have to
 know also all paths $z$ that do __not__ lead to $x$.
 
-- It turns out that often the likelihood **ratios** are easier to estimate,
+--
+count: false
+
+It turns out that often the likelihood **ratios** are easier to estimate,
 since normalizing factors drop out. One particular combination is the
 .bold[likelihood-to-evidence ratio]:
 $$
@@ -2440,9 +2445,7 @@ $(x, \theta) \sim P(x)P(\theta)$
 
 ---
 
-class: middle
-
-## Loss function
+# Loss function
 
 .bold[Strategy:] We train a neural network $d_\phi(x, \theta)$ as binary classifier to estimate the probability of hypothesis $H_0$ ($y=0$) or $H_1$ ($y=1$).
 
@@ -2452,10 +2455,17 @@ $$
 L\left[d(x, \theta)\right] = \int dx d\theta  \left[ p(x, \theta) \ln\left(d(x, \theta)\right) + p(x)p(\theta) \ln\left(1-d(x, \theta)\right) \right]
 $$
 
+--
+count: false
+
 Minimizing that function yields
 $$
 d(x, \theta) = \frac{P(x, \theta)}{P(x, \theta) + P(x)P(\theta)}
 $$
+
+--
+count: false
+
 It is easy to see that the likelihood-to-evidence ratio is then given by
 $$
 r(x,\theta) \equiv \frac{P(x|\theta)}{P(x)} = \frac{1}{d(x, \theta)}-1.
