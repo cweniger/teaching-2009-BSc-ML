@@ -38,15 +38,16 @@ class: middle
 .bold[
 - Neural Networks
 - Gradient Descent and Automatic differentiation
-  - [Ex: Logistic regression](#ex1)
+  - [Ex 1: Logistic regression](#ex1)
 - Deep Neural Networks
-  - [Ex: General function approximation](#ex2)
+  - [Ex 1b: Simple multilayer perceptron](#ex1b)
+  - [Ex 2: General function approximation](#ex2)
 - Convolutional Neural Networks
-  - [Ex: Convnet parameter regression](#ex3)
+  - [Ex 3: Convnet parameter regression](#ex3)
 
 - Inside convolutional neural networks
 - Neural likelihood-free inference
-  - [Ex: Posterior estimation with Convnets](#ex4)
+  - [Ex 4: Posterior estimation with Convnets](#ex4)
 ]
 
 ---
@@ -703,6 +704,8 @@ name: ex1
 
 # .red[Exercise 1: Logistic regression]
 
+.center[[SOLUTION](https://colab.research.google.com/drive/1WjNYyYnhurEZWhUvposJfgASZBFvFnJ1)]
+
 Your task is to train a logistic regression model to predict the gender based
 on height and weight information only.
 The three-column training data can be downloaded
@@ -1123,6 +1126,25 @@ count: false
 
 ---
 
+name: ex1b
+
+# .red[Exercise 1b: Simple multilayer perceptron]
+
+Your task is to improve our logistic regression model by replacing the single
+affine transformation with a simple hidden layer model.  Start with the solution to [exercise 1](#ex1).
+
+Replace 
+
+.center[
+$\texttt{INPUT} \to \texttt{FC} \to \texttt{SIGMOID} \to \texttt{OUTPUT}$
+
+$\Rightarrow$
+
+$\texttt{INPUT} \to \texttt{FC} \to \texttt{RELU} \to \texttt{FC} \to \texttt{SIGMOID} \to \texttt{OUTPUT}$
+]
+
+---
+
 name: ex2
 
 # .red[Exercise 2: Function approximators]
@@ -1137,6 +1159,9 @@ f(x, a, b) = a\sin(x+b)
 $$
 over the domain $x \in [-5, 5]$, and $a, b \in [0, 1]$.
 
+## Tasks
+
+- Start with a copy of the [logistic regression example](#ex1b)
 - Use a neural network with one hidden layer, $\texttt{INPUT} \to \texttt{FC} \to \texttt{RELU} \to \texttt{FC} \to \texttt{OUTPUT}$.
 - Plot the function predict by your neural network in direct comparison with the training function.
 - Investigate the quality of the result for different hidden layer dimensions.
@@ -2157,6 +2182,12 @@ which is similar to the LeNet structure.
 
 ---
 
+class: middle, center
+
+.center[![](https://media.giphy.com/media/st83jeYy9L6Bq/giphy.gif)]
+
+---
+
 class: middle
 
 # Under the hood
@@ -2333,6 +2364,129 @@ where neural response properties had previously been enigmatic."]
 sensory cortex, 2016.]
 
 ---
+
+class: middle, center
+
+# Neural likelihood free inference
+
+---
+
+class: middle
+
+# Bayes theorem
+
+Bayes theorem connects likelihood, prior, posterior and evidence
+$$
+P(\theta|x) = \frac{P(x|\theta) P(\theta)}{P(x)}
+$$
+
+---
+
+class: center, middle, black-slide
+
+<iframe width="600" height="450" src="https://www.youtube.com/embed/Kq7e6cj2nDw" frameborder="0" allowfullscreen></iframe>
+
+---
+
+class: middle
+
+## The likelihood-to-evidence ratio
+
+- In order to evaluate the probability of any outcome, we have to sum or integrate over all possible paths that could have led to this outcome
+$$
+P(x|\theta) = \underbrace{\int dz}_\text{\color{red} intractable}  \delta(x - z(t)) P(z|\theta)
+$$
+
+- Even if we could estimate the shape of $P(x|\theta)$ for paths that lead to
+some actually observed values of $x$, in order to get the normalization of $P(x)$ we have to
+know also all paths $z$ that do __not__ lead to $x$.
+
+- It turns out that often the likelihood **ratios** are easier to estimate,
+since normalizing factors drop out. One particular combination is the
+.bold[likelihood-to-evidence ratio]:
+$$
+r(x, \theta) \equiv \frac{P(x|\theta)}{P(x)}
+$$
+
+.bold[Goal]: Train a neural network to approximate $r(x, \theta)$.
+
+???
+
+Calculating the likelihood is often .red[untractable], due to large number of internal parameters
+$$
+P(x|\theta) = \underbrace{\int \int dz\, dy}_\text{\color{red} untractable} \, P(x|z, y, \theta) P(z|y) P(y) P(\theta)
+$$
+
+---
+
+# Neural likelihood-free inference
+
+
+.bold[Starting point]: for any pair of observation $x$ and model parameter $\theta$, the goal is to estimate the probability that this pair belongs one of the following classes:
+.grid[
+.kol-1-2[
+$H_0$: Data $x$ comes from model $\theta$
+
+$H_1$: Data $x$ and model $\theta$ are unrelated
+]
+.kol-1-2[
+$(x, \theta) \sim P(x, \theta) = P(x|\theta)P(\theta)$
+
+$(x, \theta) \sim P(x)P(\theta)$
+]
+]
+
+.red[Note]: The likelihood ratio for these two hypothesis is our function of interest, $r(x, \theta)$.
+
+---
+
+class: middle
+
+## Loss function
+
+.bold[Strategy:] We train a neural network $d_\phi(x, \theta)$ as binary classifier to estimate the probability of hypothesis $H_0$ ($y=0$) or $H_1$ ($y=1$).
+
+The corresponding loss function (see logistic regression example) is
+
+$$
+L\left[d(x, \theta)\right] = \int dx d\theta  \left[ p(x, \theta) \ln\left(d(x, \theta)\right) + p(x)p(\theta) \ln\left(1-d(x, \theta)\right) \right]
+$$
+
+Minimizing that function yields
+$$
+d(x, \theta) = \frac{P(x, \theta)}{P(x, \theta) + P(x)P(\theta)}
+$$
+It is easy to see that the likelihood-to-evidence ratio is then given by
+$$
+r(x,\theta) \equiv \frac{P(x|\theta)}{P(x)} = \frac{1}{d(x, \theta)}-1.
+$$
+
+---
+
+name: ex4
+
+# .red[Exercise 4: Neural posterior estimation]
+
+Your task is to take the solution to [exercise 3](#ex3) and replace point estimation with posterior estimation. To this end you have to
+
+- Adopt the convolutional neural network such that it takes an additional
+input, the radius $r$, and such that the output is between zero and one.  A
+good way to do that is to replace the last layer with 
+.center[$\texttt{(INPUT, r)} \to \texttt{FC} \to \texttt{RELU} \to \texttt{FC} \to \texttt{SIGMOID}\to\texttt{OUTPUT}$]
+Here,
+$\texttt{INPUT}$ is the output of the second-to-last $\texttt{FC}$, which is
+concatenated with the input variable $r$.
+
+- Replace the loss function by the above binary cross-entropy loss function $L[d(x, \theta)]$.
+
+Once this is done
+
+- Train the network and show that the posterior (which is $\propto \exp(-r(x, \theta))$), peaks usually close to the true value
+- Explore how the posterior becomes broaders when making the signal model more complicated (e.g. by masking random regions).
+
+
+---
+
 
 class: end-slide, center
 count: false
