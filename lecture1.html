@@ -302,6 +302,8 @@ Consider the model $$P(Y=1|\mathbf{x}) = \sigma\left(\mathbf{w}^T \mathbf{x} + b
 
 ---
 
+name: loss1
+
 class: middle
 
 We have,
@@ -746,11 +748,13 @@ class Net(nn.Module):
         return torch.sigmoid(self.fc1(x))
 ```
 
+- Minimize the loss function $\mathcal{l}$ that you can find [here](#loss1).
 - Starting template in Google colab can be found [here](https://colab.research.google.com/drive/1WN26BBI07_irmG243Ttl9bzVr7ssgv3u)
 - Use `torch.optim.SGD` for parameter optimization
 - Confirm that normalizing data (subtracting mean, dividing by standard deviation) accelerates learning
 
 Check out [DEEP LEARNING WITH PYTORCH: A 60 MINUTE BLITZ](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html) for details.
+
 
 
 
