@@ -15,11 +15,10 @@
 
 class: left, middle
 
-# Marignal posteriors from neural networks
+# Posterior estimation with neural networks
 
-.center.width-40[![](figures/lec2/title.png)]
 
-.left[BSc Machine learning course]
+.left[BSc Machine learning course 2020]
 
 .right[
 Christoph Weniger, GRAPPA
@@ -31,92 +30,259 @@ University of Amsterdam
 
 ---
 
-# Physics examples - point sources
+# All measurements are uncertain
 
-## Questions
-- What is the detection threshold?
-- What is the luminosity function?
-- ...
+
+
+.grid[
+.kol-1-2[
+## Cosmological parameters
+- Matter content vs dark energy in the Universe
+- Different measurements constrain the parameters in complementary ways
+<br>
+<br>
+<br>
+
+.red[.center[How can we describe these uncertainties mathematically?]]
+]
+.kol-1-2[
+.center[.width-100[![](figures/eso0419d.jpg)]]
+]
+]
+
+
+.footnote[Credit: ESO]
 
 ---
 
-# Physics examples - strong lensing
+# Probability distributions
 
-## Questions
-- What is the radius of the Einstein ring?
-- What is the brightness of the source?
-- What is the density of foreground sources?
+.center.red[The distribution of continuous random numbers is described by probability density functions]
+
+.grid[
+.kol-1-2[
+.center[1-dim standard normal distribution]
+.width-100[![](figures/Standard_deviation_diagram.svg.png)]
+]
+.kol-1-2[
+.center[Example for a 2-dim distribution]
+.width-80[![](figures/2-dim-prob.png)]
+]
+]
+
+
+**Bayesian statistics**: Those distributions can also describe our **belief** (plausibility/probability) that a certain parameter has a certain value.  
+
+**Examples**: Mass of the higgs particle, age of the Universe, average temperature of Earth atmosphere in 1900 (reconstruction) or in 2100 (extrapolation).
+
 
 ---
 
-# Physics examples - collider physics
+# Two schools: Bayesian* vs Frequentist
 
-## Questions
-- What is the most likely production path of a signal?
+.center[.width-50[![](figures/cartoon_guide_bayesian.png)]]
+
+*what we do here
+
+.footnote[Source: The Cartoon Guide to Statistics]
 
 ---
 
-# Bayes theorem
+# Bayes' theorem 
 
-Bayes theorem connects likelihood, prior, posterior and evidence
+.center.red[Bayes' theorem provides a clear rule for how to update believes with new data]
+
+.grid[
+.kol-1-2[
+## Likelihood $P(D|H)$
+How probable is the data $D$ given that our hypothesis $H$ is true?
+]
+.kol-1-2[
+## Prior $P(H)$
+How probable was our hypothesis $H$) before observing the evidence?
+]
+]
+
 $$
-P(\theta|x) = \frac{P(x|\theta) P(\theta)}{P(x)}
+P(H|D) = \frac{P(D|H) P(H)}{P(D)}
 $$
 
-TODO: Discuss marginal parameters
+--
+
+count: false
+
+<br>
+.grid[
+.kol-1-2[
+## Posterior $P(D|H)$
+How probably is our hypothesis $H$ given the observed data $D$?
+]
+.kol-1-2[
+## Marginal likelihood $P(D)$
+How probable is the new data $D$ under all possible hypothesis $H$?
+
+$$
+P(D) \equiv \sum_H P(D|H) P(H)
+$$
+]
+]
 
 ---
 
-# Graphical models
+# Update rule in practice
 
-TODO: Plots for the above examples
+.grid[
+.kol-1-3[
+- Prior Beliefs: $P(H)$
+- Evidence/likelhood: $P(D|H)$
+- Posterior beliefs: $P(H|D)$
+]
+.kol-2-3[
+.center[]
+.width-100[![](figures/Bayes_update.jpg)]
+]
+]
+
+--
+
+count: false
+
+.center.red[However, in many cases the likelihood of observing $D$ given hypothesis $H$, $P(D|H)$ is not actually known, or very hard to calculate.]
 
 ---
 
 class: center, middle, black-slide
 
+# Observations are often the autcome of a LARGE number of random processes
+
 <iframe width="600" height="450" src="https://www.youtube.com/embed/Kq7e6cj2nDw" frameborder="0" allowfullscreen></iframe>
 
----
-
-# How to calculate paths analytically
-
 
 ---
+
+# Physics examples - gamma rays 
+
+.grid[
+.kol-1-2[
+.center[Gamma-ray sky]
+.width-100[![](figures/fermi _lat_sky.jpeg)]
+]
+.kol-1-2[
+.center[Observed gamma-ray sources]
+.width-100[![](figures/fermi3fglait.png)]
+]
+]
+
+--
+count:false
+
+## Difficult to determine properties of source populations?  E.g.:
+
+- What is the spatial distribution of pulsars in the Galactic disk?
+
+--
+count: false
+
+- What is the luminosity function of blazars at high Galactic latitudes?
+
+--
+count: false
+
+- Are gaps in the source map physical or due to too large noise in the image?
+
+---
+
+# Physics examples - strong lensing
+
+.grid[
+.kol-1-2[
+.center[Strong gravitational lensing due to dark and visible matter]
+.width-100[![](figures/NASA_lensing.jpg)]
+]
+.kol-1-2[
+.center[Example: Distant galaxy lensed by red lens galaxy along the line-of-sight]
+.width-100[![](figures/strong_lensing.jpeg)]
+]
+]
+
+--
+count: false
+
+## Questions
+
+- How does the unperturbed source look like and how the lens?
+
+--
+count: false
+
+
+- What can we learn about the nature of dark matter?  Small clumps of dark matter would lead to characteristic distortions in the image.
+
+---
+
+# Physics examples - collider physics
+
+
+.grid[
+.kol-1-2[
+.center[Illustration of collition at ALTAS detector]
+.width-100[![](figures/ATLAS-figaux_01.png)]
+]
+.kol-1-2[
+.center[Invariant mass of 4-lepton channel]
+.width-90[![](figures/ATLASHIGGS-FIG1.png)]
+]
+]
+
+--
+count: false
+
+
+## Typical questions are:
+- What processes have most likely contributed to the 4-lepton signal?
+
+--
+count: false
+
+
+- How does this constraint the Higgs production cross section?
+
+
+
+
+
+---
+
 
 # The likelihood-to-evidence ratio
 
-In order to evaluate the probability of any outcome, we have to sum or integrate over all possible paths that could have led to this outcome
+In order to evaluate the probability of any outcome, we often have to sum or integrate over a very large number of random variables, here called $z$, that we are not actually interested in.
 $$
-P(x|\theta) = \underbrace{\int dz}_\text{\color{red} intractable}  \delta(x - z(t)) P(z|\theta)
+P(D|H) = \underbrace{\int dz}_\text{\color{red} intractable}P(D|H, z)
+P(z|H)
 $$
-
---
-
-count: false
-
-Even if we could estimate the shape of $P(x|\theta)$ for paths that lead to
-some actually observed values of $x$, in order to get the normalization of $P(x)$ we have to
-know also all paths $z$ that do __not__ lead to $x$.
 
 --
 count: false
 
-It turns out that often the likelihood **ratios** are easier to estimate,
-since normalizing factors drop out. One particular combination is the
-.bold[likelihood-to-evidence ratio]:
-$$
-r(x, \theta) \equiv \frac{P(x|\theta)}{P(x)}
-$$
+## Examples
 
-.bold[Goal]: Train a neural network to approximate $r(x, \theta)$.
+- Position of individual point sources on the sky
 
-???
+--
+count: false
 
-Calculating the likelihood is often .red[untractable], due to large number of internal parameters
-$$
-P(x|\theta) = \underbrace{\int \int dz\, dy}_\text{\color{red} untractable} \, P(x|z, y, \theta) P(z|y) P(y) P(\theta)
-$$
+- Position of individual dark matter halos, individual galaxies images
+
+--
+count: false
+
+- Physical mechanisms that lead to specific 4-lepton invariant mass
+
+--
+count: false
+
+.red.center[There are many ways to solve the integral approximately. Here, we will use neural networks to help us out.]
 
 ---
 
@@ -137,7 +303,67 @@ $(x, \theta) \sim P(x)P(\theta)$
 ]
 ]
 
-.red[Note]: The likelihood ratio for these two hypothesis is our function of interest, $r(x, \theta)$.
+---
+
+# Joint vs marginal samples
+
+Examples for $H_0$, jointly sampled from $D, H \sim P(D|H) P(H)$
+
+.grid[
+.kol-1-6[
+.center[Cat]
+.width-100[![](figures/cat.jpeg)]
+]
+.kol-1-6[
+.center[Donkey]
+.width-100[![](figures/donkey.jpeg)]
+]
+.kol-1-6[
+.center[Cat]
+.width-100[![](figures/cat.jpeg)]
+]
+.kol-1-6[
+.center[Cat]
+.width-100[![](figures/cat.jpeg)]
+]
+.kol-1-6[
+.center[Donkey]
+.width-100[![](figures/donkey.jpeg)]
+]
+.kol-1-6[
+.center[Donkey]
+.width-80[![](figures/donkey.jpeg)]
+]
+]
+
+Examples for $H_1$, marginally sampled from $D, H \sim P(D) P(H)$
+
+.grid[
+.kol-1-6[
+.center[Cat]
+.width-100[![](figures/donkey.jpeg)]
+]
+.kol-1-6[
+.center[Cat]
+.width-100[![](figures/cat.jpeg)]
+]
+.kol-1-6[
+.center[Cat]
+.width-100[![](figures/donkey.jpeg)]
+]
+.kol-1-6[
+.center[Donkey]
+.width-100[![](figures/donkey.jpeg)]
+]
+.kol-1-6[
+.center[Donkey]
+.width-100[![](figures/cat.jpeg)]
+]
+.kol-1-6[
+.center[Cat]
+.width-80[![](figures/cat.jpeg)]
+]
+]
 
 ---
 
@@ -162,10 +388,23 @@ $$
 --
 count: false
 
-One can show that
+Since
 $$
-r(x,\theta) \equiv \frac{P(x|\theta)}{P(x)} = \frac{1}{d(x, \theta)}-1.
+r(x,\theta) \equiv \frac{P(x|\theta)}{P(x)} = \frac{P(\theta|x)}{P(\theta)} = \frac{1}{d(x, \theta)}-1.
 $$
+we are actually performing ratio estimation.
+
+---
+
+# Goal is to train something like this
+
+Read world example for the analysis of gravitational wave signals
+
+.center[.width-60[![](https://i.imgur.com/jgHhhgb.png)]]
+
+- Goal is to train NN as function:  $d(D, H) \in (0, 1)$
+- $d(D, H)$ is the probability that $D$ and $H$ are jointly drawn.
+
 
 ---
 
