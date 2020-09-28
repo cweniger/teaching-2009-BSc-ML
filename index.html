@@ -164,7 +164,6 @@ P(x|y) P(y) = P(y|x)P(x)
 $$
 
 
-
 ---
 
   # Updating beliefs with Bayes' theorem
@@ -208,6 +207,14 @@ $$
 
 ---
 
+# Going from prior to posterior
+
+.center.width-90[![](figures/bayes_illustration.png)]
+
+---
+
+exclude: true
+
 # Update rule in practice
 
 .grid[
@@ -222,11 +229,20 @@ $$
 ]
 ]
 
---
 
-count: false
+
+---
+
+# Marginal likelihoods
 
 .center.red[However, in many cases the likelihood of observing $D$ given hypothesis $H$, $P(D|H)$ is not actually known, or very hard to calculate.]
+
+$$
+P(D|H) = \int d\eta \, P(D|H, \vec\eta) P(\vec\eta|H) P(H)
+$$
+
+- You can think of $\eta$ as for instance the different paths that a single ball can take in the Galton board example.
+- The integral over $\eta$ is often "intractable", i.e. not doable in practice because very high-dimensional etc.
 
 ---
 
