@@ -31,7 +31,6 @@ University of Amsterdam
 
 # All measurements are uncertain
 
-
 .grid[
 .kol-1-2[
 ## Causes for uncertainties
@@ -451,7 +450,7 @@ $(\vec x, \vec z) \sim P(\vec x)P(\vec z)$
 The corresponding loss function is (so-called "binary cross-entroy")
 
 $$
-L\left[d(\vec x, z)\right] = \int dx dz  \left[ p(\vec x, z) \ln\left(d(\vec x, z)\right) + p(\vec x)p(z) \ln\left(1-d(\vec x, z)\right) \right]
+L\left[d(\vec x, z)\right] = -\int dx dz  \left[ p(\vec x, z) \ln\left(d(\vec x, z)\right) + p(\vec x)p(z) \ln\left(1-d(\vec x, z)\right) \right]
 $$
 
 --
@@ -469,10 +468,10 @@ $$
 ## Some analytical estimates
 
 $$
-\frac{\partial}{\partial\phi}L \left[d_\phi(\vec x, z)\right] = \int dx dz  \left[ p(\vec x, z) \ln\left(d(\vec x, z)\right) + p(\vec x)p(z) \ln\left(1-d(\vec x, z) \right) \right]
+\frac{\partial}{\partial\phi}L \left[d_\phi(\vec x, z)\right] = -\int dx dz  \left[ p(\vec x, z) \ln\left(d(\vec x, z)\right) + p(\vec x)p(z) \ln\left(1-d(\vec x, z) \right) \right]
 $$
 $$
-= \int dx dz  \left[ \frac{p(\vec x, z)}{d(\vec x, z)} + \frac{p(\vec x)p(z)}{1-d(\vec x, z) } \right] \frac{\partial d(\vec x, z)}{\partial \phi}
+= -\int dx dz  \left[ \frac{p(\vec x, z)}{d(\vec x, z)} + \frac{p(\vec x)p(z)}{1-d(\vec x, z) } \right] \frac{\partial d(\vec x, z)}{\partial \phi}
 $$
 
 Setting the part in square brackets to zero yields that the network is optimized once
